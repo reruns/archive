@@ -1,0 +1,54 @@
+<% action = (album.persisted? ? album_url(album) : albums_url) %>
+<% method = (album.persisted? ? :patch : :post) %>
+
+<%= render "shared/errors" %>
+<form action="<%= albums_url %>" method="post">
+  <input
+  type="hidden"
+  name="authenticity_token"
+  value="<%= form_authenticity_token %>">
+
+<form action="<%= action %>" method="post">
+
+  <label for="album_name">Name</label>
+  <input
+    type="text"
+    name="album[name]"
+    id="album_name"
+    value="<% album.name %>">
+  <br/>
+  <br/>
+
+  <label for="album_band">Band</label>
+  <select name="album[band_id]" id="album_band">
+    <option></option>
+    <% Band.all.each do |band| %>
+      <option
+        <%= params[:band_id].to_i == band.id ? "selected" : "" %>
+        value="<%= band.id %>">
+        <%= band.name %>
+      </option>
+    <% end %>
+  </select>
+  <br/>
+  <br/>
+
+  <input
+    type="radio"
+    name="album[kind]"
+    value="Studio"
+    id="album_kind_studio"
+    <%= album.kind == "Studio" ? "checked" : "" %>>
+  <label for="album_kind_studio">Studio</label>
+  <input
+    type="radio"
+    name="album[kind]"
+    value="Live"
+    id="album_kind_live"
+    <%= album.kind == "Live" ? "checked" : "" %>>
+  <label for="album_kind_live">Live</label>
+
+  <br/>
+  <br/>
+  <input type="submit">
+</form>

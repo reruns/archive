@@ -1,0 +1,29 @@
+<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+<label for="cat_name">Cat Name:</label>
+<input type="text" name="cat[name]" value="<%= cat.name %>" id="cat_name">
+<br/>
+
+<input type="radio" name="cat[sex]" id="cat_sex_female" value="F" checked="<%= cat.sex == "F"%>">
+<label for "cat_sex_female">Female</label>
+<br/>
+
+<input type="radio" name="cat[sex]" id="cat_sex_male" value="M" checked="<%= cat.sex == "M"%>">
+<label for "cat_sex_male">Male</label>
+<br/>
+
+<select name="cat[color]" id="cat_color">
+  <option value=""></option>
+  <% Cat::COLORS.each do |color| %>
+    <option value="<%= color %>" <%= 'selected' if @cat.color == color %>><%= color.capitalize %></option>
+  <% end %>
+</select>
+<label for="cat_color">Color</label>
+<br/>
+
+<input type="date" name="cat[birth_date]" value="<%= cat.birth_date %>" id="cat_birth_date">
+<label for="cat_birth_date">Birthday</label>
+<br/>
+
+<textarea name="cat[description]" id="cat_description"><%= cat.description %></textarea>
+<label for="cat_description">Description</label>
+<br/>

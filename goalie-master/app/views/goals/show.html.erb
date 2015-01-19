@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-xs-9 col-xs-offset-1">
+    <h1><%= @goal.title %></h1>
+
+    <pre><%= @goal.description %></pre>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-9 col-xs-offset-1">
+    <h3>Privacy: <%= @goal.privacy %></h3>
+
+    <h3><%= @goal.completed? ? "Completed" : "Not Completed" %></h3>
+
+
+    <% if logged_in? && @goal.user_id == current_user.id %>
+      <form action="<%= edit_goal_url(@goal) %>" method="get">
+        <button class="btn btn-default" type="submit">Edit Goal</button>
+      </form>
+      <form action="<%= goal_url(@goal) %>" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        <%= auth_token %>
+        <button class="btn btn-default" type="submit">Delete Goal</button>
+      </form>
+      <% if !@goal.completed? %>
+        <form action="<%= complete_goal_url(@goal) %>" method="post">
+          <%= auth_token %>
+          <button class="btn btn-default" type="submit">Complete Goal</button>
+        </form>
+      <% else %>
+        <form action="<%= complete_goal_url(@goal) %>" method="post">
+          <%= auth_token %>
+          <button class="btn btn-default" type="submit">Uncomplete Goal</button>
+        </form>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<br>
+<%= render "comments/comment", replies: @goal.comments %>

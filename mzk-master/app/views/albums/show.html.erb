@@ -1,0 +1,16 @@
+<h1><%= @album.name %></h1>
+
+<%= image_tag 'VITAL.gif' %>
+<br/>
+
+<b>By: </b><%= link_to @album.band.name, band_url(@album.band) %>
+
+<br/><br/><b>Tracks:</b> <br/>
+<ol>
+  <% @album.tracks.each do |track| %>
+  <li><%= link_to track.title, track_url(track) %></li>
+  <% end %>
+</ol>
+
+
+<%= link_to "Add a Track!", new_album_track_url(@album.id) %>

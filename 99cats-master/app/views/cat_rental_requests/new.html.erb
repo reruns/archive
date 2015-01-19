@@ -1,0 +1,24 @@
+<h1>Make a new request, if you want, or something.</h1>
+
+<form action="<%= cat_rental_requests_url %>" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <select name="cat_rental_request[cat_id]" id="cat_rental_request_cat_id">
+    <option value=""></option>
+    <% Cat.all.each do |cat| %>
+      <option value="<%= cat.id %>" <%= 'selected' if cat.id.to_s == (params[:cat][:id] if params[:cat] || @crr.cat_id)%> >
+        <%= cat.name %>
+      </option>
+    <% end %>
+  </select>
+
+  <input type="date" name="cat_rental_request[start_date]"
+         value="<%= @crr.start_date %>" id="cat_rental_request_start_date">
+  <label for="cat_rental_request_start_date">Start date!</label>
+
+  <input type="date" name="cat_rental_request[end_date]"
+         value="<%= @crr.end_date %>" id="cat_rental_request_end_date">
+  <label for="cat_rental_request_end_date">End date!</label>
+
+  <input type="submit" value="Make your not silly request.">
+</form>

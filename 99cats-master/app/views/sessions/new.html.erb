@@ -1,0 +1,13 @@
+<h1>Sign in to rent some cats.</h1>
+
+<form action="<%= session_url %>" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  
+  <label for="user_name">Username</label>
+  <input type="text" name="user[user_name]" id="user_name" value="<%= @user.user_name %>"
+
+  <label for="password">Password</label>
+  <input type="password" name="user[password]" id="password" value="">
+
+  <input type="submit" value="Log In">
+</form>

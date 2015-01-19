@@ -1,0 +1,17 @@
+<h1><%= @track.title %></h1>
+
+<%= image_tag "crucial header.gif" %><br/>
+
+<b>On:</b><%= link_to @track.album.name, album_url(@track.album) %>
+<br/>
+<b>By:</b> <%= link_to @track.album.band.name, band_url(@track.album.band) %>
+<br/>
+<b>Type:</b> <%= @track.kind %>
+<br/>
+
+<%= ugly_lyrics(@track.lyrics).html_safe %>
+
+<br/><br/>
+
+<%= render "notes/note", track: @track %>
+<%= render "notes/form", track: @track %>

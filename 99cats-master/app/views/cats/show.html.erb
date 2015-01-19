@@ -1,0 +1,40 @@
+<h1> Show <%= @cat.name.upcase %>!!!!</h1>
+<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Color</th>
+    <th>Birthday</th>
+    <th>Sex</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><%= @cat.name %></td>
+    <td><%= @cat.color %></td>
+    <td><%= @cat.birth_date %></td>
+    <td><%= @cat.sex %></td>
+    <td><%= @cat.description%></td>
+  </tr>
+</table>
+
+<ul>
+  <% @requests.each do |request| %>
+    <li>
+      <%= "#{request.start_date} to #{request.end_date} Status: #{request.status}" %>
+      <%= "Request made by: #{request.requester.user_name}" %>
+      <% if request.pending? && current_is_owner? %>
+        <%= button_to "Approve", approve_cat_rental_request_url(request), method: 'patch' %>
+        <%= button_to "Deny", deny_cat_rental_request_url(request), method: 'patch' %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+<a href="<%=edit_cat_url(@cat)%>">Edit this here cat</a>
+<br/>
+<a href="<%=new_cat_rental_request_url%>?cat%5bid%5d=<%= @cat.id %>">
+  Make a request for this amazingly cute cat
+</a>
+<br/>
+<a href="<%=cats_url%>">Back to the great list O' cats</a>

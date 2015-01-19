@@ -1,0 +1,24 @@
+<h2>Notes</h2>
+
+<% @track.notes.each do |note| %>
+<ol>
+  <li>
+    <%= note.user.email %>
+    <br/>
+    <%= note.text %>
+    <br/>
+    <% if note.user.id == current_user.id %>
+      <form action="/notes" class="button_to" method="post">
+        <input
+          type="hidden"
+          name="authenticity_token"
+          value="<%= form_authenticity_token %>">
+        <input type="hidden" name="note[id]" value="<%=note.id%>">
+
+        <input type="hidden" name="_method" value="delete">
+        <input type="submit" value="delete">
+      </form>
+    <% end %>
+  </li>
+</ol>
+<% end %>

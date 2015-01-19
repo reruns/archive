@@ -1,0 +1,21 @@
+<h1><%= @post.title %></h1>
+<%= @post.author.email %>
+<br>
+<%= link_to @post.url, "http://" + @post.url %>
+<br><br>
+<pre><%= @post.content %></pre>
+
+<b>Comments:</b>
+<ul>
+  <%= render @all_comments[nil], all_comments: @all_comments %>
+</ul>
+
+<%= link_to "Post a comment", new_comment_url %>
+
+<br><br>
+<b>Back to:</b>
+<ul>
+  <% @post.subs.each do |sub| %>
+    <li><%= link_to "#{sub.title}", sub_url(sub) %></li>
+  <% end %>
+</ul>

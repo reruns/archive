@@ -1,0 +1,33 @@
+<h1>Reply</h1>
+<label>Original Comment:
+<br>
+<%= @comment.content %></label>
+
+<br><br>
+<b>Comments:</b>
+<ul>
+  <%= render @all_comments[@comment.id], all_comments: @all_comments %>
+
+</ul>
+
+<form action="<%= comments_url %>" method="POST">
+  <input type="hidden" name="_method" value="POST">
+  <input
+  type="hidden"
+  name="authenticity_token"
+  value="<%= form_authenticity_token %>"> -->
+
+  <br>
+
+  <label for="comment_content">Content</label>
+  <br>
+  <textarea id="comment_content" name="comment[content]"><%= @comment.content %>
+  </textarea>
+
+  <input type="hidden"
+    name="comment[parent_comment_id]" value="<%= params[:id] %>">
+  <input type="hidden"
+    name="comment[post_id]" value="<%= Comment.find(params[:id]).post_id %>">
+
+  <input type="submit">
+</form>

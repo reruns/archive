@@ -1,0 +1,83 @@
+<script type="text/template" id="pokemon-detail-template">
+  <div class="detail">hello, this works
+    <img src="<%%= pokemon.escape('image_url') %>"></img>
+    <dl>
+<%%     for (var attr in pokemon.attributes) {                                %>
+<%%       if (attr == 'image_url') {                                          %>
+<%%         continue;                                                         %>
+<%%       } else if (attr == 'moves') {                                       %>
+<%%         var moves = pokemon.escape(attr).split(", ");                     %>
+            <dt>moves</dt>
+<%%         moves.forEach( function(move) {                                   %>
+              <dd><%%= move %></dd>
+<%%         });                                                               %>
+<%%         continue;                                                         %>
+<%%        } else {                                                           %>
+              <dt><%%= attr %></dt>
+              <dd><%%= pokemon.escape(attr) %></dd>
+<%%        }                                                                  %>
+<%%     }                                                                     %>
+    <ul class="toys">
+    </ul>
+  </div>
+</script>
+
+
+<script type="text/template" id="pokemon-list-item-template">
+  <li class="poke-list-item" data-id='<%%= pokemon.escape('id') %>'>
+    <%%= pokemon.escape('name') %>, <%%= pokemon.escape('poke_type') %>
+  </li>
+</script>
+
+<script type="text/template" id="toy-list-item-template">
+  <li class="toy-list-item" data-toy-id="<%%= toy.escape('id') %>" data-pokemon-id="<%%= toy.escape('pokemon_id') %>">
+    <dl>
+      <dt>name</dt>
+      <dd><%%= toy.escape('name') %></dd>
+      <dt>happiness</dt>
+      <dd><%%= toy.escape('happiness') %></dd>
+      <dt>price</dt>
+      <dd><%%= toy.escape('price') %></dd>
+    </dl>
+  </li>
+</script>
+
+<script type="text/template" id="toy-detail-template">
+  <div class='detail'>
+    <img src="<%%= toy.escape('image_url') %>" alt="toy picture">
+
+    <form class='toy-detail-form' data-toy-id='<%%= toy.escape("id") %>' data-pokemon-id='<%%= toy.escape("pokemon-id") %>'>
+      <input type='hidden' name='toy[id]' value='<%%= toy.escape("id") %>'>
+      <div>
+        <label>Happiness
+          <input type='number' value="<%%= toy.escape('happiness') %>" name='toy[happiness]'>
+        </label>
+      </div>
+      <div>
+        <label>Price
+          <input type='number' value="<%%= toy.escape('price') %>" name='toy[price]'>
+        </label>
+      </div>
+      <div>
+        <label>Image Url
+          <input type='text' value="<%%= toy.escape('image_url') %>" name='toy[image_url]'>
+        </label>
+      </div>
+      <div>
+        <select class='poke-select' name='toy[pokemon_id]'>
+          <%% pokes.forEach( function (poke) { %>
+              <option value='<%%= poke.escape('id') %>'
+                <%% if (poke.escape("id") === toy.escape('pokemon_id')) { %>
+                  selected
+                <%% } %>>
+                <%%= poke.escape('name') %>
+              </option>
+          <%% }); %>
+        </select>
+      </div>
+      <div>
+        <input type='submit' value="submit">
+      </div>
+    </form>
+  </div>
+</script>

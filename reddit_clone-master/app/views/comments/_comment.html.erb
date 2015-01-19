@@ -1,0 +1,10 @@
+<li>
+  <b><%= comment.author.email %></b> <br>
+  <%= comment.content %>
+  <br>
+  <%= link_to "Reply", comment_url(comment) %>
+  <br>
+  <ul>
+    <%= render all_comments[comment.id], all_comments: all_comments %>
+  </ul>
+</li>

@@ -1,0 +1,16 @@
+<% action_url = comment.persisted? ? comment_url(comment) : comments_url %>
+<% http_method = comment.persisted? ? "PATCH" : "POST" %>
+
+<form action="<%= action_url %>" method="POST">
+  <input type="hidden" name="_method" value="<%= http_method %>">
+  <input
+  type="hidden"
+  name="authenticity_token"
+  value="<%= form_authenticity_token %>">
+
+  <br>
+
+  <label for="comment_content">Content</label>
+  <br>
+  <textarea id="comment_content" name="comment[content]"><%= comment.content %>
+  </textarea>

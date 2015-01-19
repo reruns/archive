@@ -1,0 +1,26 @@
+html, body, a, div, img {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+div.zoomable {
+  width: 300px;
+  position: relative;
+}
+
+div.zoomable img{
+  width: 100%;
+}
+
+div.focus-box {
+  display:none;
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  background: lightgrey;
+  opacity: 0.3;
+}
+ div.zoomable:hover div.focus-box {
+   display: block;
+ }

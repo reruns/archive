@@ -1,0 +1,9 @@
+<h1>New comment</h1>
+
+<%= render "form", comment: @comment %>
+
+  <input type="hidden"
+  name="comment[post_id]" value="<%= params[:id] %>">
+
+  <input type="submit">
+</form>

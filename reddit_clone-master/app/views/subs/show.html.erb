@@ -1,0 +1,19 @@
+<h1>Welcome to <%= @sub.title %>, where the rules are made up and the points don't matter</h1>
+<br>
+<h2><%= @sub.description %></h2>
+<br>
+<h3><%= link_to "Submit-a-Post", new_post_url %></h3>
+<br>
+<ul>
+  <% @sub.posts.each do |post| %>
+  <li><%= link_to "#{post.title}", post_url(post) %></li>
+  <ul>
+    <li><%= post.author.email %></li>
+    <% unless post.url.empty? %>
+
+    <li><%= post.url %></li>
+    <% end %>
+  </ul>
+
+  <% end %>
+</ul>
