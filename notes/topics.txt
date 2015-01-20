@@ -1,8 +1,0 @@
-functional programming
-  lambda calculus
-compiler/cpu optimization
-fancy algo
-other tech?
-  angular.js?
-  node?
-  WHTEVER
