@@ -1,42 +1,45 @@
---Step 1. Find the diameter, d, of the graph.
-  --Find one endpoint by doing a BFS on any node.
-  --Find the second endpoint by doing a BFS on that one.
---Step 2. Find the eccentricity of the starting city,v.
---  The answer is (k-1)d + e(v)
-
 import Control.Monad
-import qualified Data.Vector as V
+import Control.Monad.ST
+import qualified Data.Map as M
+import qualified Data.Array as A
+import Data.Array.ST
 import Data.List
 import Data.Ord
 import Data.Tuple
 
---This works but is too slow/memory intensive. Make it better!
-eccentricity g v = search (g V.! v) ks 0 where
-    ks = (V.fromList (replicate (V.length g) True)) V.// (zip (v:(g V.! v)) (repeat False))
-    search vs seen n = if vs==[] then n else search cs (seen V.// (zip cs (repeat False))) (n+1) where
-        cs = filter (seen V.!) (concatMap (g V.!) vs)
+graphify es = runSTArray $ do
+  arr <- newArray (1, 1+(toInteger$length es)) []
+  forM_ es $ \e -> do
+    let [a,b] = map (\x -> read x :: Integer) $ words e
+    t <- readArray arr a
+    k <- readArray arr b
+    writeArray arr a (b:t)
+    writeArray arr b (a:k)
+  return arr
 
-diameter g = eccentricity g (search (g V.! 1) ks) where
-    ks = (V.fromList (replicate (V.length g) True)) V.// (zip (1:(g V.! 1)) (repeat False))
-    search vs seen = if cs==[] then head vs else search cs (seen V.// (zip cs (repeat False))) where
-        cs = filter (seen V.!) (concatMap (g V.!) vs)
+ls g v = search [v] [] 0 where
+  search vs seen n = if cs==[] then (zip vs (repeat n)) else (zip vs (repeat n)) ++ search cs vs (n+1) where
+    cs = filter (\x -> not$elem x seen) (concatMap (g A.!) vs)
 
-graphify es = (V.fromList (replicate (1+length t) [])) V.// t where
-  t = map g $ groupBy (\x y -> (fst x) == (fst y)) $ sortBy (comparing fst) (es ++ (map swap es))
-  g l = ((head.fst$unzip l), (snd$unzip l))
+eccentricity g v = (mm g) M.! v
+diameter g = M.fold max 0 (mm g)
 
-tuplify str = (a,b) where
-  a = read (head$ words str)
-  b = read (last$ words str)
+--performance note: this requires sorting two lists of size k
+--if k is 10^5, this is going to be obnoxious.
+mm g = M.fromList $ zipWith f (sortBy (comparing fst) a) (sortBy (comparing fst) b) where
+  s = fst $ last $ ls g 1
+  a = ls g s
+  e = fst $ last a
+  b = ls g e
+  f (w,x) (y,z) = (w, max x z)
 
 main = do
   cstr <- getLine
-  let [n,m] = map read $ words cstr
+  let [n,m] = map (\x -> read x :: Int) $ words cstr
   pairs <- replicateM (n-1) getLine
-  let es = map tuplify pairs
-      g = graphify es
+  let g = graphify pairs
       d = diameter g
   replicateM_ m $ do
     vstr <- getLine
-    let [v,k] = map read $ words vstr
-    print $ (k-1)*d + (eccentricity g v)
+    let [v,k] = map (\x -> read x :: Integer) $ words vstr
+    print $ (k-1)*d + eccentricity g v
